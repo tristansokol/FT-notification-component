@@ -1,0 +1,108 @@
+﻿<link rel="import" href="./components/polymer/polymer.html">
+
+<polymer-element name="ft-objects" noscript>
+  <template>
+    <style>
+    :host {
+      display: block;
+      position: relative;
+      background-color: white;
+      padding: 20px;
+      width: 100%;
+      height: 500px;
+      font-size: 1.2rem;
+      font-weight: 300;
+    }
+
+  </style>
+    <ft-notifications ftobject="{{ftobject}}" since="2014-07-09T09:44:20.976Z" apikey="%%GetAnApiKey%%"></ft-notifications>
+    Here is some of the latest news!
+    <template repeat="{{notifications in ftobject}}">
+      <ft-content url="{{notifications.apiUrl}}" apikey="%%GetAnApiKey%%" ></ft-content>
+    </template>
+  </template>
+</polymer-element>
+
+<polymer-element name="ft-notifications" attributes="ftobject since apikey">
+  <template>
+    <style>
+    :host {
+      display: none;
+    }
+  </style>
+    <core-ajax id="ajax"
+  auto
+  url="http://api.ft.com/content/notifications?since={{since}}&apiKey={{apikey}}"
+  on-core-response="{{postsLoaded}}"
+  handleAs="json"></core-ajax>
+  </template>
+  <script>
+  Polymer('ft-notifications', {
+    postsLoaded: function() {
+      // Make a copy of the loaded data
+      data = this.$.ajax.response.notifications
+      this.ftobject = data;
+      console.log(data);
+    }
+  });
+</script>
+</polymer-element>
+
+<polymer-element name="ft-notification" noscript>
+  <template>
+    <style>
+    :host {
+      display: block;
+      border:thin black solid;
+    }
+  </style>
+    <div >
+      <content select="h3"></content>
+      <content select="h4"></content>
+      <content></content>
+    </div>
+  </template>
+</polymer-element>
+
+<polymer-element name="ft-get-content" attributes="url apikey ftarticle">
+  <template>
+    <style>
+    :host {
+      display: block;
+    }
+  </style>
+    <core-ajax id="ajax"
+  on-core-response="{{Loaded}}"
+  handleAs="json"></core-ajax>
+  </template>
+  <script>
+  Polymer('ft-get-content', {
+    ready: function() {
+      this.$.ajax.url = this.url + '?apiKey=' + this.apikey;
+      this.$.ajax.go();
+    },
+    Loaded: function() {
+      // Make a copy of the loaded data
+      data = this.$.ajax.response
+      this.ftarticle = data;
+      console.log(data);
+    }
+  });
+</script>
+</polymer-element>
+
+<polymer-element name="ft-content" attributes="url apikey " noscript>
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <ft-get-content url="{{url}}" apikey="%%GetAnApiKey%%" ftarticle="{{ftarticle}}" ></ft-get-content>
+    <ft-notification>
+      <h3>{{ftarticle.title}}</h3>
+      <h4>{{ftarticle.byline}}</h4>
+      {{ftarticle.bodyXML}}
+    </ft-notification>
+  </template>
+</polymer-element>

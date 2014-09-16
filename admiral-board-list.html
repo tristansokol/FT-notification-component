@@ -1,0 +1,32 @@
+﻿<link rel="import" href="./components/polymer/polymer.html">
+<link rel="import" href="./post-service/post-service.html">
+<link rel="import" href="admiral-board-tab.html">
+
+<polymer-element name="admiral-board-list" attributes="show">
+  <template>
+    <style>
+    :host {
+      display: block;
+      width: 100%;
+    }
+    post-card {
+      margin-bottom: 30px;
+    }
+    </style>
+
+    <post-service id="service" posts="{{posts}}"></post-service>
+    
+    <div layout vertical center>
+      <template repeat="{{post in posts}}">
+        <admiral-board-tab>
+          <h2>{{post.username}}</h2>
+          <p>{{post.text}}</p>
+        </admiral-board-tab>
+      </template>
+    </div>
+  </template>
+
+  <script>
+  Polymer({});
+  </script>
+</polymer-element>

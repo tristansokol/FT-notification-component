@@ -1,0 +1,40 @@
+<link rel="import" href="./components/polymer/polymer.html">
+<link rel="import" href="./components/paper-dialog/paper-dialog-transition.html">
+<link rel="import" href="./components/paper-dialog/paper-dialog.html" >
+<link rel="import" href="./components/paper-input/paper-input.html">
+<link rel="import" href="./components/core-localstorage/core-localstorage.html">
+<link href="./components/paper-button/paper-button.html" rel="import">
+    <link rel="import" href="trello-components.html">
+
+
+
+<polymer-element name="admiral-sidebar" attributes=" apiKey">
+<template>
+  <style>
+    :host {
+      display: block;
+    }
+  </style>
+  <core-localstorage id="OAUTHlocalstorage" name="OAUTHlocalstorage" autoSaveDisabled value="{{OAUTHToken}}"></core-localstorage>
+
+  <core-ajax id="ajax"
+  auto
+  url="https://api.trello.com/1/members/me/boards?key={{apiKey}}&token={{OAUTHToken}}"
+  on-core-response="{{boardsLoaded}}"
+  response="{{blocks}}"
+  handleAs="json"></core-ajax>
+  <template repeat="{{block in blocks}}">
+    <trello-board-block name="{{block.name}}"></trello-board-block>
+  </template>
+</template>
+<script>
+  Polymer('admiral-sidebar', {
+    boardsLoaded: function(){
+      data = this.$.ajax.response;
+      console.log(data);
+    }
+
+  });
+</script>
+</polymer-element>
+

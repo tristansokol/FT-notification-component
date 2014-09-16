@@ -18,8 +18,8 @@
     <link rel="import" href="./components/core-toolbar/core-toolbar.html">
     <link rel="import" href="./components/core-menu/core-menu.html">
     <link rel="import" href="./components/paper-tabs/paper-tabs.html">
+    <link rel="import" href="admiral-board-list.html">
     <link rel="import" href="ft-components.html">
-
     <style>
       html,body {
         height: 100%;
@@ -48,6 +48,9 @@
       .container {
           width: 400px;
       }
+      #target{
+        height: 600px;
+      }
   }
 </style>
 </head>
@@ -63,9 +66,22 @@
         <div tool>The latest FT news! </div>
         <div>
             <ft-objects></ft-objects>
+            <div id="target"></div>
         </div>
     </core-scaffold>
+  <script>
+    window.addEventListener('polymer-ready', function(e) {
+        var ftnot = document.querySelector('ft-notifications');
+ftnot.
+  var list = document.querySelector('admiral-board-list');
+  var tabs = document.querySelector('admiral-board-tab');
+    });
+  </script>
+    <script>
 
+
+
+</script>
 </body>
 
-</html>
+</ht
